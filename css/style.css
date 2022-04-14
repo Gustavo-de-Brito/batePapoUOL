@@ -11,7 +11,7 @@ body {
 
 .main-container {
     color: black;
-    padding: 100px 0 100px 0;
+    padding: 100px 0 90px 0;
 }
 
 .fixed-bar {
@@ -21,12 +21,12 @@ body {
     width: 100%;
     padding: 10px;
     background: #FFFFFF;
-    position: fixed;
-    left: 0;
 }
 
 .top-bar {
+    position: fixed;
     top: 0;
+    left: 0;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05)
 }
 
@@ -57,11 +57,14 @@ body {
     color: #AAAAAA;
 }
 
-.sender {
-    margin-right: 5px;
+.sender,
+.adressee {
     font-weight: bold;
 }
 
+.adressee {
+    margin-right: 5px;
+}
 .entrace-status {
     background-color: #DCDCDC;
 }
@@ -71,7 +74,9 @@ body {
 }
 
 .bottom-bar {
+    position: fixed;
     bottom: 0;
+    left: 0;
     box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);   
 }
 
