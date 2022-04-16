@@ -80,14 +80,110 @@ body {
     box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);   
 }
 
+.bottom-bar > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .bottom-bar > ion-icon {
     margin-left: 20px;
+    margin-right: 20px;
     font-size: 30px;
 }
 
-.bottom-bar > input {
+.bottom-bar input {
     font-size: 18px;
     width: 100%;
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
     border: none;
+}
+
+.bottom-bar p {
+    font-size: 14px;
+    color: #505050;
+    padding: 10px 20px;
+}
+
+.dark-background {
+    display: flex;
+    justify-content: flex-end;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    visibility: visible;
+    opacity: 1;
+    transition: all .7s linear;
+}
+
+.side-bar {
+    height: 100vh;
+    width: 68%;
+    background-color: #FFFFFF;
+    color: black;
+    transition: all .6s ease-out;
+    transform: translateX(104%);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.side-bar > h3 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 30px 0 40px 0;
+    padding: 0 16%;
+}
+
+.participants-list {
+    max-height: 58%;
+    overflow-y: scroll;
+}
+
+.participant > div,
+.visibility-option > div {
+    display: flex;
+    align-items: center;
+}
+
+.participant,
+.visibility-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 14px;
+}
+
+.side-bar ion-icon {
+    margin: 0 10px 0 4px;
+    font-size: 25px;
+}
+
+.participant > p {
+    font-size: 16px;
+}
+
+.check-icon {
+    font-size: 6px;
+    color: #28BB25;
+    opacity: 0;
+}
+
+.visible {
+    opacity: 1;
+}
+
+.show-screen {
+    transform: translateX(0%);
+}
+
+.removed {
+    visibility: hidden;
+    opacity: 0;
 }
