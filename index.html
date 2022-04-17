@@ -11,6 +11,15 @@
 </head>
 <body>
     <div class="main-container">
+        <div class="login-view">
+            <img src="./images/logo.svg" alt="logo-oul">
+            <div>
+                <input type="text" placeholder="Digite o seu nome">
+                <button onclick="verifyUser()">Entrar</button>
+                <p class="user-warning">Nome de usuário já existe, insira outro</p>
+            </div>
+        </div>
+
         <div class="fixed-bar top-bar">
             <img src="./images/logo.svg" alt="logo da UOL">
             <ion-icon name="people" onclick="showSideBar()"></ion-icon>
@@ -22,7 +31,7 @@
 
         <div class="fixed-bar bottom-bar">
             <div>
-                <input type="text" placeholder="Escreva aqui...">
+                <input type="text" placeholder="Escreva aqui..." keyup="teste()">
                 <p>Enviando para Todos (publicamente)</p>
             </div>
             <ion-icon name="paper-plane-outline" onclick="sendMessage(this)"></ion-icon>

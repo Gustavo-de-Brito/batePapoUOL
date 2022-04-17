@@ -6,12 +6,12 @@ let visibilityText = "publicamente"
 
 function showSideBar() {
     document.querySelector(".dark-background").classList.remove("removed");
-    document.querySelector(".side-bar").classList.add("show-screen"); // alterar nome
+    document.querySelector(".side-bar").classList.add("show-side-bar"); // alterar nome
 }
 
 function hideSideBar() {
     document.querySelector(".dark-background").classList.add("removed");
-    document.querySelector(".side-bar").classList.remove("show-screen"); // alterar nome
+    document.querySelector(".side-bar").classList.remove("show-side-bar"); // alterar nome
 
 }
 
@@ -117,7 +117,11 @@ function setMessageStatus(response) {
         }
 
     }
-    document.querySelector(".message:last-child").scrollIntoView();
+
+    if(filterMessages.length !== 0) {
+        document.querySelector(".message:last-child").scrollIntoView();
+
+    }
 }
 
 function loadMessages() {
@@ -191,7 +195,9 @@ function selectVisibility(visibilityContainer) {
 }
 
 function initializeSite() {
-    setInterval(loadMessages, 10000);
+    document.querySelector(".login-view").classList.add("removed");
+
+    setInterval(loadMessages, 3000);
     setInterval(keepConected, 4000);
     setInterval(verifyOnlineParticipants, 10000);
 
@@ -202,8 +208,10 @@ function initializeSite() {
 
 function verifyUser() { 
     
+    const nome = document.querySelector(".login-view input").value;
+
     user = {
-        name: prompt("Digite o seu nome de usuário"),
+        name: nome,
     };
 
     const promiseLogin = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", user);
@@ -212,14 +220,21 @@ function verifyUser() {
 
     promiseLogin.catch(function (err) {
         if(err.response.status === 400) {
-            alert("Nome de usuário já existe, insira outro");
-            verifyUser();
+            document.querySelector(".user-warning").classList.add("visible");
+
+            document.querySelector(".login-view input").value = "";
 
         }
     });
 
 }
 
+const inputMessage = document.querySelector(".bottom-bar input");
 
+inputMessage.addEventListener("keyup", function(e) {
+    if(e.code === "Enter") {
+       const sendBtn = document.querySelector(".bottom-bar ion-icon");
+       sendMessage(sendBtn);
 
-verifyUser();
+    }
+});
