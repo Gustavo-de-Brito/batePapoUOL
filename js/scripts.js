@@ -2,16 +2,26 @@ let user;
 let lastMessage;
 let adresssee = "Todos";
 let visibility = "Público";
-let visibilityText = "publicamente"
+let visibilityText = "publicamente";
+
+const inputMessage = document.querySelector(".bottom-bar input");
+
+inputMessage.addEventListener("keyup", function(e) {
+    if(e.code === "Enter") {
+       const sendBtn = document.querySelector(".bottom-bar ion-icon");
+       sendMessage(sendBtn);
+
+    }
+});
 
 function showSideBar() {
     document.querySelector(".dark-background").classList.remove("removed");
-    document.querySelector(".side-bar").classList.add("show-side-bar"); // alterar nome
+    document.querySelector(".side-bar").classList.add("show-side-bar");
 }
 
 function hideSideBar() {
     document.querySelector(".dark-background").classList.add("removed");
-    document.querySelector(".side-bar").classList.remove("show-side-bar"); // alterar nome
+    document.querySelector(".side-bar").classList.remove("show-side-bar");
 
 }
 
@@ -28,7 +38,7 @@ function addEntraceStatus(message) {
         </div>
         `;
 }
-            
+
 function addConversationMessage(message, messageType) {
 
     document.querySelector(".messages").innerHTML += `
@@ -45,7 +55,7 @@ function addConversationMessage(message, messageType) {
 }
 
 function verifyReservedAdressee(message) {
-    if(message.to === user.name || message.from === user.name) {
+    if(message.to === user.name || message.from === user.name || message.to === "Todos") {
         return true;
     }
 
@@ -62,13 +72,17 @@ function sendMessage(btn) {
     }
 
     btn.parentNode.querySelector("input").value = "";
-    
+
     const promissePostMessage = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", message);
 
     promissePostMessage.then(loadMessages);
     promissePostMessage.catch(function (err) {
         console.log(`Erro no envio da mensagem: ${err.response.status}`);
     });
+
+    promissePostMessage.catch(function() {
+        window.location.reload();
+    })
 }
 
 function setMessageStatus(response) {
@@ -77,18 +91,18 @@ function setMessageStatus(response) {
 
     let indexLastMessage;
     let lastMessageHour;
-    
+
     if(lastMessage !== undefined) {
         lastMessageHour = messages.find(message => message.time === lastMessage.time);
         indexLastMessage = messages.indexOf(lastMessageHour) + 1;
-        
+
     } else {
         indexLastMessage = 0;
-        
+
     }
 
     let filterMessages = messages.slice(indexLastMessage, messages.length);
-    
+
     for(let i = 0; i < filterMessages.length; i++) {
 
         if(i === filterMessages.length - 1) {
@@ -103,13 +117,10 @@ function setMessageStatus(response) {
                 messageType = "";
                 addConversationMessage(filterMessages[i], messageType);
                 break;
-                case "private_message":
-                    messageType = "reserved";
-                    console.log(verifyReservedAdressee(filterMessages[i]));
+            case "private_message":
+                messageType = "reserved";
                 if(verifyReservedAdressee(filterMessages[i])) {
-                    console.log("olá");
-                    addConversationMessage(filterMessages[i], messageType)
-                    console.log(filterMessages[i]);
+                    addConversationMessage(filterMessages[i], messageType);
                 }
                 break;
             default:
@@ -125,15 +136,15 @@ function setMessageStatus(response) {
 }
 
 function loadMessages() {
-    
+
     const promiseMessages = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
-    
+
     promiseMessages.then(setMessageStatus);
 }
 
 function keepConected() {
     const promiseConected = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", user);
-    
+
     promiseConected.catch(function (err) {
         console.log(`Erro ao tentar manter a conexão: ${err.response.status}`);
     });
@@ -151,7 +162,7 @@ function listOnlineParticipants(participants) {
             <ion-icon name="checkmark-sharp" class="check-icon visible"></ion-icon>
         </div>
         `;
-        
+
     for(let i = 0; i < participants.length; i++) {
         listParticipants.innerHTML += `
             <div class="participant" onclick="selectAdressee(this)">
@@ -187,7 +198,7 @@ function selectAdressee(participantContainer) {
 function selectVisibility(visibilityContainer) {
     document.querySelector(".visibility-option .check-icon.visible").classList.remove("visible");
     visibilityContainer.querySelector(".check-icon").classList.add("visible");
-    
+
     visibility = visibilityContainer.querySelector("p").innerHTML;
     visibilityText = visibility === "Público" ? "publicamente" : "reservadamente";
 
@@ -205,9 +216,8 @@ function initializeSite() {
     verifyOnlineParticipants();
 }
 
-
 function verifyUser() { 
-    
+
     const nome = document.querySelector(".login-view input").value;
 
     user = {
@@ -228,13 +238,3 @@ function verifyUser() {
     });
 
 }
-
-const inputMessage = document.querySelector(".bottom-bar input");
-
-inputMessage.addEventListener("keyup", function(e) {
-    if(e.code === "Enter") {
-       const sendBtn = document.querySelector(".bottom-bar ion-icon");
-       sendMessage(sendBtn);
-
-    }
-});

@@ -11,7 +11,7 @@ body {
 
 .main-container {
     color: black;
-    padding: 100px 0 90px 0;
+    padding: 75px 0 90px 0;
 }
 
 .login-view {
@@ -91,6 +91,7 @@ body {
 }
 
 .message {
+    overflow-y: scroll;
     display: flex;
     padding: 20px 10px;
     margin-top: 5px;
@@ -138,8 +139,7 @@ body {
 }
 
 .bottom-bar > ion-icon {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin: 0 10px 0 20px;
     font-size: 30px;
 }
 
